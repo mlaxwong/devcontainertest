@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  php:
+    build: 
+      context: .
+      dockerfile: ./docker/prod-php7.4-apache/Dockerfile
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:8.0.21
+    environment: 
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      # - MYSQL_DATABASE=app_v1

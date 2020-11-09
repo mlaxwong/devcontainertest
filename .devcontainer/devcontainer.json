@@ -1,0 +1,11 @@
+{
+    "name": "PHP 7.4",
+    "dockerComposeFile": ["../docker-compose.yml", "docker-compose.extend.yml"],
+    "service": "php",
+    "extensions": [
+        "felixfbecker.php-debug",
+        "felixfbecker.php-intellisense"
+    ],
+    "workspaceFolder": "/app",
+    "shutdownAction": "stopCompose"
+}

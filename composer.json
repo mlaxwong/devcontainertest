@@ -1,0 +1,13 @@
+{
+    "name": "mlaxwong/devcontainertest",
+    "type": "project",
+    "authors": [
+        {
+            "name": "mlaxwong",
+            "email": "mlaxwong@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.2"
+    }
+}

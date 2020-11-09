@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # PHP Application
+  php:
+    build: 
+      context: .
+      dockerfile: ./docker/dev-php7.4-apache/Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/app:delegated
+    depends_on:
+      - mysql
+      - mysqltest
+
+  # Mysql Database
+  mysql:
+    env_file:
+     - ./.env
+    environment: 
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+    volumes:
+      - ./.devcontainer/volumes/mysql:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - "9090:80"
+    env_file:
+     - ./.env
+    environment: 
+      - PMA_HOST=mysql
+      - PMA_USER=${DB_USER}
+    depends_on:
+      - mysql
+  
+  # Test Mysql Database
+  mysqltest:
+    image: mysql:8.0.21
+    env_file:
+     - ./.env
+    environment: 
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_USER=${TEST_DB_USER}
+      - MYSQL_PASSWORD=${TEST_DB_PASSWORD}
+      - MYSQL_DATABASE=${TEST_DB_NAME}
+    volumes:
+      - ./.devcontainer/volumes/mysqltest:/var/lib/mysql
+  phpmyadmintest:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - "9091:80"
+    env_file:
+     - ./.env
+    environment: 
+      - PMA_HOST=mysqltest
+      - PMA_USER=${TEST_DB_USER}
+    depends_on:
+      - mysqltest
