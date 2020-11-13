@@ -5,6 +5,8 @@ services:
     build: 
       context: .
       dockerfile: ./docker/prod-php7.4-apache/Dockerfile
+    ports:
+      - "8080:80"
     depends_on:
       - mysql
   mysql:
